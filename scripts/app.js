@@ -211,7 +211,6 @@ function getAnunciosAjaxSinSpinner(){
 }
 
 async function crearAnuncioAxiosAsync(anuncio){
-    debugger;
     const options = {
         method:"POST",
         headers:{
@@ -306,7 +305,6 @@ function filtrarTabla(e, anunciosFiltrados, temporalList){
     if(temporalList.length>0) {
         myAverage.value =  averageToShow;
     }
-
 
     actualizarTabla(temporalList);
 }

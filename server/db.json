@@ -23,7 +23,7 @@
     {
       "titulo": "Citroen C4",
       "transaccion": "alquiler",
-      "descripcion": "citroen c4 .................",
+      "descripcion": "citroen c4 XD",
       "precio": 342323,
       "puertas": 5,
       "kms": 13434,
@@ -41,14 +41,24 @@
       "id": 1656457101868
     },
     {
-      "id": 1656458276225,
-      "titulo": "Ferrari",
-      "transaccion": "alquiler",
-      "descripcion": "ferrari................",
-      "precio": "2323233",
+      "id": 1656459794980,
+      "titulo": "Corolla",
+      "transaccion": "venta",
+      "descripcion": "toyota corolla",
+      "precio": "323232",
       "puertas": "2",
-      "kms": "13232",
-      "potencia": "422"
+      "kms": "32323",
+      "potencia": "323"
+    },
+    {
+      "id": 1656459882273,
+      "titulo": "Gol trend",
+      "transaccion": "alquiler",
+      "descripcion": "gol trend ..............",
+      "precio": "323233",
+      "puertas": "2",
+      "kms": "323323",
+      "potencia": "222"
     }
   ]
 }
