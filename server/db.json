@@ -1,0 +1,24 @@
+{
+  "anuncios": [
+    {
+      "titulo": "Clio 1.6",
+      "transaccion": "venta",
+      "descripcion": "Descripcion clio 1.6",
+      "precio": 213232,
+      "puertas": 4,
+      "kms": 32332,
+      "potencia": 213,
+      "id": 1656447285266
+    },
+    {
+      "titulo": "323232323",
+      "transaccion": "venta",
+      "descripcion": "dsdsdsd",
+      "precio": 32323,
+      "puertas": 3,
+      "kms": 3232,
+      "potencia": 323,
+      "id": 1656454248381
+    }
+  ]
+}

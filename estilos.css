@@ -1,0 +1,139 @@
+body{
+    background-color: lightsteelblue;
+}
+td, th {
+    border: 1px solid black;
+}
+header nav{
+    text-align: right;
+    display:inline-block;
+    width: 87%;
+}
+li{
+    list-style:none;
+}
+a{
+    text-decoration: none;
+}
+
+th {
+    background-color: darkkhaki;
+}
+table {
+    border-collapse: collapse;
+}
+
+/*.oscuro {
+    background-color: darkgray;
+}
+.claro {
+    background-color: white;
+}*/
+
+tr:hover {
+    background-color: dodgerblue;
+    color: white;
+    cursor: pointer;
+}
+tr {
+    background-color: white;
+}
+
+form {
+    margin: auto;
+}
+
+#formAnuncio{
+    background-color: aliceblue;
+    padding: 20px;
+    width: 60%;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    height: 520px;
+}
+
+#filtrosSection{
+    width: 60%;
+    background-color: darksalmon;
+    padding: 20px;
+    height: 140px;
+    margin: auto;
+    margin-bottom: 30px;
+}
+
+.header {
+
+    height: 120px;
+    background-color: cornflowerblue;
+    display: flex;
+}
+.logo {
+    width: 150px;
+}
+.navbar {
+    float: right;
+
+}
+.titulo {
+    text-align: center;
+}
+.banner {
+    width: 100%;
+}
+input {
+    margin-bottom: 25px;
+}
+.inputLargo {
+    width: 98%;
+}
+.inputCorto {
+    width: 12%;
+}
+
+table {
+    margin: auto;
+    width: 60%;
+}
+#altaAuto{
+    background-color:chartreuse;
+}
+#spinner {
+
+    width: 100px;
+    margin: 0 auto;
+}
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 250px;
+    height: 300px;
+  }
+
+footer {
+
+    height: 120px;
+    background-color: cornflowerblue;
+    display: flex;
+    margin-top: 400px;
+}
+
+.navfooter{
+    display: flex;
+    
+}
+.navfooter li{
+    margin: 0 20px;
+
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 600px) {
+    .banner {
+        display: none;
+    }
+  }
+  
