@@ -5,20 +5,16 @@ const Url = 'http://localhost:3000/anuncios';
 
 //const autos = localStorage.getItem('autos')?JSON.parse(localStorage.getItem('autos')):[];
 
-let filteredAds=[];
-let temporalListAds=[];
+let anunciosFiltrados=[];
+let listaTemporal=[];
 
 const container = document.querySelector('.table-container');
 const $spinner = document.getElementById('spinner');
 
 getAnunciosAjax();
-//console.log('##autos: ' + autos);
+
 let idSeleccionado = 0;
 let idAModificar = 0;
-
-//actualizarTabla(autos);
-
-//console.log(autos);
 
 const filtrosCheckbox =  document.querySelectorAll(".filtroCheck");
 const myAverage = document.getElementById("Average");
@@ -28,7 +24,7 @@ filtrosCheckbox.forEach((element)=> element.addEventListener("click",filtrarPorC
 window.addEventListener("change", (ev) => {
     if(ev.target.matches('#FTransaction')){
       console.log('Inside of the Change Event');
-      filtrarTabla(ev, filteredAds, temporalListAds);
+      filtrarTabla(ev, anunciosFiltrados, listaTemporal);
     }
   });
 
@@ -79,10 +75,7 @@ $frmAuto.addEventListener('submit', (e)=>{
 
     console.log(nuevoAuto);
     
-    //autos.push(nuevoAuto);
-    //localStorage.setItem('autos', JSON.stringify(autos));
-    
-    crearAnuncioAjax(nuevoAuto);
+    crearAnuncioAxiosAsync(nuevoAuto);
     getAnunciosAjax();
 
     Swal.fire('Anuncio creado!','Se creo con exito el anuncio','success');
@@ -94,11 +87,10 @@ function eliminarAnuncio() {
 
     if(idSeleccionado != 0) {
         
-        eliminarAnuncioAjax(idSeleccionado);
-    
-        //localStorage.setItem('autos', JSON.stringify(autos));
+        eliminarAnuncioAxiosAsync(idSeleccionado);
+
         Swal.fire('Anuncio eliminado!','Se elimino con exito el anuncio','error');
-        getAnunciosAjax();
+        getAnunciosAjaxSinSpinner();
         idSeleccionado = 0;
         esconderBotones();
         $frmAuto.reset();
@@ -122,8 +114,7 @@ function modificarAnuncio() {
         idAModificar = 0;
         $btnBaja.disabled = false;
         esconderBotones();
-        //localStorage.setItem('autos', JSON.stringify(autos));
-        getAnunciosAjax();
+        getAnunciosAjaxSinSpinner();
         Swal.fire('Anuncio modificado!','Se modifico con exito el anuncio','info');
         $frmAuto.reset();
     } 
@@ -150,28 +141,6 @@ window.addEventListener('click', (e) => {
 
 });
 
-
-
-function actualizarTabla(vec) {
- 
-    /*const container = document.querySelector('.table-container');
-    const $spinner = document.getElementById('spinner');
-    container.hidden = true;
-    $spinner.hidden = false;
-
-    setTimeout(()=>{
-        $spinner.hidden = true; 
-        container.hidden = false;
-    }, 1500);*/
-
-    while(container.children.length>0){
-        container.removeChild(container.firstElementChild);
-    }
-    if(vec.length>0){
-        container.appendChild(crearTabla(vec));
-    }
-}
-
 function cargarSpinner() {
     container.hidden = true;
     $spinner.hidden = false;
@@ -183,7 +152,7 @@ function eliminarSpinner() {
 }
 
 
-function actualizarTablaSinSpinner(vec) {
+function actualizarTabla(vec) {
  
     const container = document.querySelector('.table-container');
     const $spinner = document.getElementById('spinner');
@@ -205,8 +174,8 @@ function getAnunciosAjax(){
         if(xhr.readyState == 4){
             if(xhr.status>=200 && xhr.status<300){
                 const data = JSON.parse(xhr.responseText);
-                filteredAds = data;
-                temporalListAds = data;
+                anunciosFiltrados = data;
+                listaTemporal = data;
                 actualizarTabla(data);
             }
             else{
@@ -222,26 +191,43 @@ function getAnunciosAjax(){
     xhr.send();
 }
 
-function crearAnuncioAjax(anuncio){
-    cargarSpinner();
+function getAnunciosAjaxSinSpinner(){
     const xhr = new XMLHttpRequest();
     xhr.addEventListener('readystatechange', ()=>{
         if(xhr.readyState == 4){
             if(xhr.status>=200 && xhr.status<300){
                 const data = JSON.parse(xhr.responseText);
+                anunciosFiltrados = data;
+                listaTemporal = data;
+                actualizarTabla(data);
             }
             else{
                 console.error(xhr.status, xhr.statusText);
             }
-            eliminarSpinner();
-        }
-        else{
-            cargarSpinner();
         }
     });
-    xhr.open('POST', Url);
-    xhr.setRequestHeader('Content-Type','application/json;charset=utf8');
-    xhr.send(JSON.stringify(anuncio));
+    xhr.open('GET', Url);
+    xhr.send();
+}
+
+async function crearAnuncioAxiosAsync(anuncio){
+    debugger;
+    const options = {
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        data:JSON.stringify(anuncio)
+    }
+    cargarSpinner();
+    try {
+        const {data} = await axios(Url, options);
+        console.log(data);
+    } catch (error) {
+        console.error(error);
+    } finally {
+        eliminarSpinner();
+    }
 }
 
 function modificarAnuncioAjax(id){
@@ -292,46 +278,37 @@ function getPersonaAjax(id){
     xhr.send();
 }
 
-function eliminarAnuncioAjax(id){
+async function eliminarAnuncioAxiosAsync(id){
     cargarSpinner();
-    const xhr = new XMLHttpRequest();
-    xhr.addEventListener('readystatechange', ()=>{
-        if(xhr.readyState == 4){
-            if(xhr.status>=200 && xhr.status<300){
-                console.log(xhr.responseText);
-            }
-            else{
-                console.error(xhr.status, xhr.statusText);
-            }
-           eliminarSpinner();
-        }
-        else{
-            cargarSpinner();
-        }
-    });
-    xhr.open('DELETE', Url + '/' + id);
-    xhr.send();
+    try {
+        const {data} = await axios.delete(Url + '/' + id);
+    } catch (error) {
+        console.error(error);
+    } finally {
+        eliminarSpinner();
+    }
 }
 
-function filtrarTabla(e, filteredAds, temporalList){
+function filtrarTabla(e, anunciosFiltrados, temporalList){
 
     let selectedOption =  FTransaction.value;
     let averageToShow = 'N/A';
 
     if(selectedOption != "todos"){
-        temporalList = filteredAds.filter(value => value.transaccion == selectedOption);
+        temporalList = anunciosFiltrados.filter(value => value.transaccion == selectedOption);
         const average = temporalList.reduce((total, current) => total + parseInt(current.precio), 0) /temporalList.length;
 
         averageToShow = `$ ${average.toFixed(2)}`;
     }else{
-        temporalList = filteredAds;
+        temporalList = anunciosFiltrados;
     }
 
     if(temporalList.length>0) {
         myAverage.value =  averageToShow;
     }
 
-    actualizarTablaSinSpinner(temporalList);
+
+    actualizarTabla(temporalList);
 }
 
 function filtrarPorCheckbox(e){
@@ -340,7 +317,7 @@ function filtrarPorCheckbox(e){
     filtros[item.name] = item.checked;
   });
 
-  const listaAnuncios = temporalListAds.map((item) => {
+  const listaAnuncios = listaTemporal.map((item) => {
     const mapAnuncios = {};
     for (const key in item) {
       if (filtros[key] || key == "id") {
@@ -349,5 +326,5 @@ function filtrarPorCheckbox(e){
     }
     return mapAnuncios;
   });
-  actualizarTablaSinSpinner(listaAnuncios);
+  actualizarTabla(listaAnuncios);
 }

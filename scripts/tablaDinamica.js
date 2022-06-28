@@ -1,6 +1,7 @@
 function crearTabla(vec){
 
     const tabla = document.createElement('table');
+    tabla.classList.add('table');
     tabla.appendChild(crearCabecera(vec[0]));
     tabla.appendChild(crearCuerpo(vec));
     return tabla;
@@ -10,6 +11,8 @@ function crearCabecera(elemento){
     const thead = document.createElement('thead'),
           tr = document.createElement('tr');
 
+    thead.classList.add('thead-dark');
+    
     Object.keys(elemento).forEach(k => {
 
         if(k !== 'id'){

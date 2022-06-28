@@ -3,10 +3,26 @@ import crearTabla from "./tablaDinamica.js";
 import Anuncio_Auto from "./Anuncio_Auto.js";
 import crearAnuncios from "./anunciosDinamicos.js";
 
-const autos = localStorage.getItem('autos')?JSON.parse(localStorage.getItem('autos')):[];
+const Url = 'http://localhost:3000/anuncios';
 
+function getAnunciosAjax(){
+    const xhr = new XMLHttpRequest();
+    xhr.addEventListener('readystatechange', ()=>{
+        if(xhr.readyState == 4){
+            if(xhr.status>=200 && xhr.status<300){
+                const data = JSON.parse(xhr.responseText);
+                actualizarTabla(data);
+            }
+            else{
+                console.error(xhr.status, xhr.statusText);
+            }
+        }
+    });
+    xhr.open('GET', Url);
+    xhr.send();
+}
 
-actualizarTabla(autos);
+getAnunciosAjax();
 
 
 function actualizarTabla(vec) {
